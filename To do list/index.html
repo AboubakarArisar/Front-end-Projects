@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List - Pindari Coders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+    *{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins' , 'sans-serif';
+    box-sizing: border-box;
+}
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #034534, #490635);
+    padding: 10px;
+}
+.application {
+    width: 100%;
+    max-width: 540px;
+    background: #fff;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 10px;
+}
+.application h2 {
+    color: #002765;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.application h2 img {
+    width: 50px;
+    margin-left: 10px;
+    border-radius: 50%;
+ 
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 30px;
+    background: #edeef0;
+    padding-left: 20px;
+    margin-bottom: 25px;
+}
+input {
+    flex: 1;
+    border: none;
+    outline:  none;
+    background: transparent;
+    padding: 10px;
+}
+button {
+    border: none;
+    outline:  none;
+    padding: 16px 50px;
+    background: #218b5f;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 40px;
+}
+ul li {
+    list-style: none;
+    font-size: 17px;
+    padding: 12px 8px 12px 50px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+ul li::before {
+    content: '';
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-image: url(circle.png);
+    background-size: cover;
+    background-position: center;
+    top: 8px;
+    left: 8px;
+}
+ul li.checked {
+    color: #555;
+    text-decoration: line-through;
+}
+ul li.checked::before {
+    background-image: url(chked.jpeg);
+    background-size: cover;
+    background-position: center;
+}
+ul li span {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: #555;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+ul li span:hover {
+    background: #edeef0;
+}
+.heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+.heading i {
+    font-size: 25px;
+    text-align: center;
+    padding-bottom: 28px;
+}
+.heading h2 {
+    margin-right: 23px;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="application">
+            <div class="heading">
+            <h2>To-Do List </h2>
+                <i class="fa fa-list-alt"></i>
+            </div>
+            <div class="field">
+                <input type="text" id="inputbox" placeholder="Enter your task">
+                <button onclick = "addTask()" >Add</button>
+            </div>
+            <ul id="list">
+        
+            </ul>
+        </div>
+    </div>
+   <script>
+        let input = document.getElementById("inputbox");
+        let list = document.getElementById("list");
+
+        function addTask() {
+            if(input.value === ''){
+                alert("Please enter a task ");
+            }
+            else {
+                let li = document.createElement("li");
+                li.innerHTML = input.value;
+                list.appendChild(li);
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7";
+                li.appendChild(span);
+            }
+            
+            input.value = "";
+            saveData();
+        }
+        
+    list.addEventListener("click", function(e) {
+        if(e.target.tagName === "LI") {
+            e.target.classList.toggle("checked");
+            saveData();
+        }
+        else if(e.target.tagName === "SPAN") {
+            e.target.parentElement.remove();
+            saveData();
+        }
+    },false);
+       
+    function saveData() {
+        localStorage.setItem("data", list.innerHTML);
+    }
+    function showData() {
+        list.innerHTML = localStorage.getItem("data");
+    }
+    showData();
+    </script>
+</body>
+</html>
